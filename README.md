@@ -1,4 +1,7 @@
 
+Link video y apk.
+https://drive.google.com/drive/folders/12wxOcOxENojjFHxqL79nZ_uxaazCe5pj?usp=sharing
+
 
 Install the Flutter SDK & Android Studio. Instructions.
 
