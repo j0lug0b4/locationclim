@@ -34,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  String latitude = "";
-  String longitude = "";
+  String latitude = "6.2387073";
+  String longitude = "-75.5862931";
   Future<Weather> getWeatherf(String lat, String lon) async {
     var status = await Permission.location.status;
     if (!status.isGranted) {
