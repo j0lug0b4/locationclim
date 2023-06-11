@@ -31,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     dataState = getWeather();
 
+    latitude = position!.latitude.toString();
+    longitude = position!.longitude.toString();
+
     super.initState();
   }
 
@@ -129,26 +132,32 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
               child: Column(
         children: [
-          Container(
-            height: size.height * 0.5,
-            width: size.width * 0.8,
-            child: OpenStreetMapSearchAndPick(
-              center: LatLong(position!.latitude, position!.longitude),
-              buttonColor: Colors.blue,
-              buttonText: 'Buscar Ubicación',
-              onPicked: (pickedData) {
-                print(pickedData.latLong.latitude);
-                print(pickedData.latLong.longitude);
+          position!.latitude == null ||
+                  position!.longitude == null ||
+                  position!.latitude == "" ||
+                  position!.longitude == "" ||
+                  position == null
+              ? Container()
+              : Container(
+                  height: size.height * 0.5,
+                  width: size.width * 0.8,
+                  child: OpenStreetMapSearchAndPick(
+                    center: LatLong(position!.latitude, position!.longitude),
+                    buttonColor: Colors.blue,
+                    buttonText: 'Buscar Ubicación',
+                    onPicked: (pickedData) {
+                      print(pickedData.latLong.latitude);
+                      print(pickedData.latLong.longitude);
 
-                setState(() {
-                  dataState = getWeatherf(
-                      pickedData.latLong.latitude.toString(),
-                      pickedData.latLong.longitude.toString());
-                });
-              },
-              onGetCurrentLocationPressed: locationService.getPosition,
-            ),
-          ),
+                      setState(() {
+                        dataState = getWeatherf(
+                            pickedData.latLong.latitude.toString(),
+                            pickedData.latLong.longitude.toString());
+                      });
+                    },
+                    onGetCurrentLocationPressed: locationService.getPosition,
+                  ),
+                ),
           FutureBuilder<Weather>(
             future: dataState,
             builder: (context, snapshot) {
