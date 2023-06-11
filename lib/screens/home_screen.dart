@@ -31,14 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     dataState = getWeather();
 
-    latitude = position!.latitude.toString();
-    longitude = position!.longitude.toString();
-
     super.initState();
   }
 
-  String latitude = "6.2387073";
-  String longitude = "-75.5862931";
+  String latitude = "";
+  String longitude = "";
   Future<Weather> getWeatherf(String lat, String lon) async {
     var status = await Permission.location.status;
     if (!status.isGranted) {
@@ -132,23 +129,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
               child: Column(
         children: [
-          position!.latitude == null ||
-                  position!.longitude == null ||
-                  position!.latitude == "" ||
-                  position!.longitude == "" ||
-                  position == null
-              ? Container()
-              : Container(
-                  height: size.height * 0.5,
-                  width: size.width * 0.8,
-                  child: OpenStreetMapSearchAndPick(
+          Container(
+            height: size.height * 0.5,
+            width: size.width * 0.8,
+            child: position != null
+                ? OpenStreetMapSearchAndPick(
                     center: LatLong(position!.latitude, position!.longitude),
                     buttonColor: Colors.blue,
                     buttonText: 'Buscar Ubicación',
                     onPicked: (pickedData) {
-                      print(pickedData.latLong.latitude);
-                      print(pickedData.latLong.longitude);
-
                       setState(() {
                         dataState = getWeatherf(
                             pickedData.latLong.latitude.toString(),
@@ -156,8 +145,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       });
                     },
                     onGetCurrentLocationPressed: locationService.getPosition,
-                  ),
-                ),
+                  )
+                : Container(),
+          ),
           FutureBuilder<Weather>(
             future: dataState,
             builder: (context, snapshot) {
